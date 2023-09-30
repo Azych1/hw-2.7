@@ -1,5 +1,6 @@
 package skypro.hw2.employeeBook.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import skypro.hw2.employeeBook.dto.Employee;
 import skypro.hw2.employeeBook.exception.EmployeeAlreadyAddedException;
@@ -26,12 +27,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeStorageIsFullException();
         }
 
-        Employee employee = new Employee(firstName, lastName, department, salary);
+
         String key = generateKey(firstName, lastName);
 
         if (employeeMap.containsKey(key)) {
             throw new EmployeeAlreadyAddedException();
         }
+
+        Employee employee = new Employee(
+                StringUtils.capitalize(firstName),
+                StringUtils.capitalize(lastName),
+                department, salary);
 
         employeeMap.put(key, employee);
 
